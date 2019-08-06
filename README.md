@@ -9,6 +9,6 @@
     + CharaModel
   + UserController
 
-### イテレータ
+### インターフェース
   + IDataReader
   + IDataWriter
