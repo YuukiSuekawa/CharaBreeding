@@ -1,0 +1,41 @@
+﻿{
+"charaList":
+  [
+    {
+      "name":"アオウミウシ",
+      "imgName":"Chara00",
+      "assetName":"AoUmiushi",
+      "category":"うみうし",
+      "speed":1,
+      "maxSatiety":100,
+      "maxSleepiness":100,
+      "maxHumor":100,
+      "sickParcent":50,
+      "maxToilet":100
+    },
+    {
+      "name":"ゴマフビロードウミウシ",
+      "imgName":"Chara01",
+      "assetName":"GomahuBirodoUmiushi",
+      "category":"うみうし",
+      "speed":2,
+      "maxSatiety":80,
+      "maxSleepiness":80,
+      "maxHumor":70,
+      "sickParcent":10,
+      "maxToilet":80
+    },
+    {
+      "name":"シロウサギウミウシ",
+      "imgName":"Chara02",
+      "assetName":"ShiroUsagiUmiushi",
+      "category":"うみうし",
+      "speed":3,
+      "maxSatiety":120,
+      "maxSleepiness":150,
+      "maxHumor":150,
+      "sickParcent":80,
+      "maxToilet":200
+    }
+  ]
+}
