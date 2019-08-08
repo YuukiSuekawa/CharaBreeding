@@ -10,5 +10,4 @@
   + UserController
 
 ### インターフェース
-  + IDataReader
-  + IDataWriter
+  + ICharaStatus
