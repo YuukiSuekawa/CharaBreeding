@@ -18,7 +18,7 @@ namespace CharaBreeding
     public class SaveManager : SingletonMonoBehaviour<SaveManager>
     {
         private string fileRootPath;
-        [SerializeField] public SaveData save;
+        public SaveData save;
         private GameMainManager mainManager;
 
         private const string userSaveFile = "userSave.json";
@@ -165,13 +165,18 @@ namespace CharaBreeding
             }
         }
 
-        #if UNITY_EDITOR
-        public void SaveDataCheck()
+        public bool SaveDataCheck()
         {
-            Debug.Log(save.userInfo);
-            Debug.Log(save.userChara.Length);
-            Debug.Log(save.userRoom.Length);
+#if UNITY_EDITOR
+            Debug.Log("save file check");
+            Debug.Log("filePath " + fileRootPath);
+            Debug.Log("userInfo " + save.userInfo);
+            Debug.Log("userChara len " + save.userChara.Length);
+            Debug.Log("userRoom len " + save.userRoom.Length);
+#endif
+            return (save.userInfo != null &&
+                save.userRoom != null &&
+                save.userChara != null);
         }
-        #endif
     }
 }
