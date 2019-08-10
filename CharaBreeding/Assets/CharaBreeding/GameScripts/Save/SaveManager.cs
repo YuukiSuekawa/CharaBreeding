@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using CharaBreeding.GameScripts;
 using CharaBreeding.Util;
@@ -46,13 +43,10 @@ namespace CharaBreeding
 
             if (File.Exists(fileRootPath + userSaveFile))
             {
-                Debug.Log("Loadへ");
-//                Load();
-                Init();
+                Load();
             }
             else
             {
-                Debug.Log("Initへ");
                 Init();
             }
 
@@ -112,21 +106,15 @@ namespace CharaBreeding
             switch (_category)
             {
                 case SaveCategory.userInfo:
-                    Debug.Log("Json前Info " + save.userInfo);                    
                     json = JsonUtility.ToJson(save.userInfo);
                     fileName = userSaveFile;
-                    Debug.Log("Json後 " + json);
                     break;
                 case SaveCategory.roomInfo:
-                    Debug.Log("Json前Room " + save.userRoom);
                     json = JsonHelper.ToJson(save.userRoom);
-                    Debug.Log("Json後 " + json);
                     fileName = roomSaveFile;
                     break;
                 case SaveCategory.charaInfo:
-                    Debug.Log("Json前Chara " + save.userChara);
                     json = JsonHelper.ToJson(save.userChara);
-                    Debug.Log("Json後 " + json);
                     fileName = charaSaveFile;
                     break;
                 
@@ -139,7 +127,6 @@ namespace CharaBreeding
 
         public void Load()
         {
-            // TODO 動作テストまだ
             UserInfoLoad();
             UserRoomLoad();
             UserCharaLoad();
@@ -152,7 +139,6 @@ namespace CharaBreeding
                 StreamReader streamReader = new StreamReader(fileRootPath + userSaveFile);
                 string data = streamReader.ReadToEnd();
                 streamReader.Close();
-                Debug.Log("UserInfo " + data);
                 save.userInfo = JsonUtility.FromJson<UserInfoRecord>(data);
             }
         }
@@ -164,9 +150,7 @@ namespace CharaBreeding
                 StreamReader streamReader = new StreamReader(fileRootPath + roomSaveFile);
                 string data = streamReader.ReadToEnd();
                 streamReader.Close();
-                Debug.Log("UserRoom " + data);
-
-                save.userRoom = JsonUtility.FromJson<UserRoomRecord[]>(data);
+                save.userRoom = JsonHelper.FromJson<UserRoomRecord>(data);
             }
         }
         
@@ -177,9 +161,7 @@ namespace CharaBreeding
                 StreamReader streamReader = new StreamReader(fileRootPath + charaSaveFile);
                 string data = streamReader.ReadToEnd();
                 streamReader.Close();
-                Debug.Log("UserChara " + data);
-
-                save.userChara = JsonUtility.FromJson<UserCharaRecord[]>(data);
+                save.userChara = JsonHelper.FromJson<UserCharaRecord>(data);
             }
         }
 
