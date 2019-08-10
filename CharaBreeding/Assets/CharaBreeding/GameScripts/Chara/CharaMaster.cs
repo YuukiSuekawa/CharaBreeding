@@ -1,10 +1,11 @@
 ﻿using System;
 
-namespace CharaBreeding.Scripts.Chara
+namespace CharaBreeding
 {
     [Serializable]
     public class CharaMaster
     {
+        public int charaId;
         public string name;
         public string imgName;
         public string assetName;
