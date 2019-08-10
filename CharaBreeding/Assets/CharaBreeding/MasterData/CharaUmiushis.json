@@ -2,6 +2,7 @@
 "charaList":
   [
     {
+      "charaId":0,
       "name":"アオウミウシ",
       "imgName":"Chara00",
       "assetName":"AoUmiushi",
@@ -14,6 +15,7 @@
       "maxToilet":100
     },
     {
+      "charaId":1,
       "name":"ゴマフビロードウミウシ",
       "imgName":"Chara01",
       "assetName":"GomahuBirodoUmiushi",
@@ -26,6 +28,7 @@
       "maxToilet":80
     },
     {
+      "charaId":2,
       "name":"シロウサギウミウシ",
       "imgName":"Chara02",
       "assetName":"ShiroUsagiUmiushi",

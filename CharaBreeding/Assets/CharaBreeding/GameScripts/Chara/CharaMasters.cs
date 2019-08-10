@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CharaBreeding.Scripts.Chara
+namespace CharaBreeding
 {
     [Serializable]
     public class CharaMasters

@@ -1,4 +1,4 @@
-﻿using CharaBreeding.Scripts.Chara;
+﻿using CharaBreeding;
 using UnityEditor;
 using UnityEngine;
 using System.IO;

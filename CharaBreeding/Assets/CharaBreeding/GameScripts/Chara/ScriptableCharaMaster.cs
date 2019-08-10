@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CharaBreeding.Scripts.Chara
+namespace CharaBreeding
 {
     [Serializable]
     public class ScriptableCharaMaster : ScriptableObject
