@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using CharaBreeding.GameScripts.Interface;
 using UnityEngine;
 
 namespace CharaBreeding
 {
-    public class CharaManagerBase : MonoBehaviour
+    public class CharaManagerBase : MonoBehaviour,IGameObj,IUpdateByFrame
     {
         private CharaMaster _master;
         public CharaMaster Master { get; }
@@ -29,6 +30,11 @@ namespace CharaBreeding
             
             
             yield return null;
+        }
+
+        public void UpdateByFrame()
+        {
+//            Debug.Log("UpdateByFrame : " + GetType().Name);
         }
     }
 }

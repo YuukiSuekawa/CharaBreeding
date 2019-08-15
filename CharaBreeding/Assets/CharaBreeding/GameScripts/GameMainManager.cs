@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using CharaBreeding.GameScripts.Interface;
+using UnityEngine;
 
 namespace CharaBreeding.GameScripts
 {
     public class GameMainManager : SingletonMonoBehaviour<GameMainManager>
     {
 
+        private IMasterObj[] m_masterObject;
+        
         public enum GameMainState
         {
             none = 0,
@@ -21,6 +24,8 @@ namespace CharaBreeding.GameScripts
             }
             
             DontDestroyOnLoad(gameObject);
+
+            m_masterObject = InterfaceUtils.FindObjectOfInterfaces<IMasterObj>();
         }
 
         private void Start()
@@ -35,7 +40,16 @@ namespace CharaBreeding.GameScripts
                 Debug.LogError("saveData error.");
             }
         }
-        
-        
+
+        private void Update()
+        {
+            foreach (var list in m_masterObject)
+            {
+                if (list is IUpdateByFrame update)
+                {
+                    update.UpdateByFrame();
+                }
+            }
+        }
     }
 }

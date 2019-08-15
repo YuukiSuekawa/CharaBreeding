@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using CharaBreeding.GameScripts;
+using CharaBreeding.GameScripts.Interface;
 using CharaBreeding.Util;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace CharaBreeding
         charaInfo
     }
     
-    public class SaveManager : SingletonMonoBehaviour<SaveManager>
+    public class SaveManager : SingletonMonoBehaviour<SaveManager>,IMasterObj,IUpdateByFrame
     {
         private string fileRootPath;
         public SaveData save;
@@ -78,6 +79,11 @@ namespace CharaBreeding
             save.userRoom[0] = roomInfo;
 
             Save(SaveCategory.all);
+        }
+
+        public void UpdateByFrame()
+        {
+            
         }
 
         public void Save(SaveCategory _category)
