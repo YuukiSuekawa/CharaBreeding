@@ -6,9 +6,9 @@ namespace CharaBreeding.GameScripts
 {
     public class BreedingSceneManager : SceneManagerBase
     {
-        private CharaManagerBase m_charaMng;
+        private CharaBreedingManager m_charaMng;
         private RoomManagerBase m_roomMng;
-        private UIManagerBase m_uiMng;
+        private UIBreedingManager m_uiMng;
 
         protected void Awake()
         {
@@ -19,20 +19,21 @@ namespace CharaBreeding.GameScripts
 
         private void Init()
         {
-            SearchMng();            
+            SearchMng();
+            SetUIEvent();
         }
 
         private void SearchMng()
         {
             foreach (var list in m_gameObject)
             {
-                if (list is CharaManagerBase charaMng)
+                if (list is CharaBreedingManager charaMng)
                     m_charaMng = charaMng;
 
                 if (list is RoomManagerBase roomMng)
                     m_roomMng = roomMng;
 
-                if (list is UIManagerBase uiMng)
+                if (list is UIBreedingManager uiMng)
                     m_uiMng = uiMng;
             }
             
@@ -42,6 +43,12 @@ namespace CharaBreeding.GameScripts
             Debug.Log("Seach Mng ui:" + m_uiMng);
             #endif
             // TODO これ見る前にBreedingの継承クラスちゃんと作ってあげんといかん
-        }        
+        }
+
+        private void SetUIEvent()
+        {
+            m_uiMng.SetEatEvent(m_charaMng.EatFood);
+
+        }
     }
 }
