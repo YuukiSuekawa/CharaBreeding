@@ -18,12 +18,9 @@ public class CharaView : MonoBehaviour
         initPos = charaObject.GetComponent<Transform>().localPosition;
     }
     
-    public IEnumerator AnimEat(UnityAction _callback)
+    public IEnumerator AnimFood(UnityAction _callback)
     {
-        // todo コールバックで返したい
-        // todo 位置を指定の位置に持っていきたいところ
-        
-        
+        charaObject.transform.localPosition = initPos;
         m_animator.SetTrigger(AnimatorAttack);
         yield return new WaitForSeconds(1f);
         m_animator.SetTrigger(AnimatorAttack);

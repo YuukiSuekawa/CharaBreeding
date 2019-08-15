@@ -1,20 +1,28 @@
-﻿using UnityEngine;
+﻿using CharaBreeding.Util;
+using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
-using Button = UnityEngine.UI.Button;
 
 namespace CharaBreeding.GameScripts.UI
 {
     public class UIBreedingManager : UIManagerBase
     {
-        [SerializeField] private Button button;
+        [SerializeField] private MenuButton[] m_buttons;
 
-        private UnityAction m_eat;
 
-        public void SetEatEvent(UnityAction _eat)
+        private MenuButton SearchMenuButton(MenuButton.ButtonType _type)
         {
-            m_eat = _eat;
-            button.onClick.AddListener(m_eat);
+            foreach (var button in m_buttons)
+            {
+                if (button.GetButtonType() == _type) return button;
+            }
+
+            return null;
+        }
+
+        public void SetFoodEvent(UnityAction _callback)
+        {
+            MenuButton button = SearchMenuButton(MenuButton.ButtonType.food);
+            button.onClick.AddListener(_callback);
         }
 
         

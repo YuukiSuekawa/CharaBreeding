@@ -42,12 +42,11 @@ namespace CharaBreeding.GameScripts
             Debug.Log("Seach Mng room:" + m_roomMng);
             Debug.Log("Seach Mng ui:" + m_uiMng);
             #endif
-            // TODO これ見る前にBreedingの継承クラスちゃんと作ってあげんといかん
         }
 
         private void SetUIEvent()
         {
-            m_uiMng.SetEatEvent(m_charaMng.EatFood);
+            m_uiMng.SetFoodEvent(m_charaMng.EatFood);
 
         }
     }

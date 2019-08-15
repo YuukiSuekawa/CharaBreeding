@@ -39,7 +39,7 @@ public class CharaBreedingManager : CharaManagerBase
     public void EatFood()
     {
         m_status = CharaStatus.eat;
-        m_controller.ExeEat(() =>
+        m_controller.ExeFood(() =>
         {
             Debug.Log("オワタ");
             m_status = CharaStatus.idle;

@@ -15,12 +15,12 @@ public class CharaController : MonoBehaviour
         m_model = GetComponent<CharaModel>();
     }
 
-    public void ExeEat(UnityAction _callback)
+    public void ExeFood(UnityAction _callback)
     {
         Debug.Log("ExeEat");
         // TODO モデルにデータ反映
         
         // TODO ビュー反映
-        StartCoroutine(m_view.AnimEat(_callback));
+        StartCoroutine(m_view.AnimFood(_callback));
     }
 }
