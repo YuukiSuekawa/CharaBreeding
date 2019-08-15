@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using CharaBreeding;
+using CharaBreeding.GameScripts;
 using CharaBreeding.GameScripts.Interface;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class CharaBreedingManager : CharaManagerBase
@@ -16,9 +18,11 @@ public class CharaBreedingManager : CharaManagerBase
 
     private CharaController m_controller;
     
-    private CharaStatus m_status = CharaStatus.idle;
+    private CharaActionState m_status = CharaActionState.idle;
+
+    private BreedingSceneManager.OnCharaSave m_saveCallback;
     
-    private enum CharaStatus
+    private enum CharaActionState
     {
         idle = 0,
         walk,
@@ -29,28 +33,50 @@ public class CharaBreedingManager : CharaManagerBase
         sick
     }
 
+
     private void Awake()
     {
         m_controller = GetComponent<CharaController>();
     }
 
-    // TODO まずはご飯
-
-    public void EatFood()
+    public override void UpdateByFrame()
     {
-        m_status = CharaStatus.eat;
-        m_controller.ExeFood(() =>
-        {
-            Debug.Log("オワタ");
-            m_status = CharaStatus.idle;
-        });
-        
+    }
+
+    public void SetCharaData(CharaMaster _master,UserCharaRecord _record,BreedingSceneManager.OnCharaSave _saveCallback)
+    {
+        m_controller.SetCharaData(_master,_record);
+        m_saveCallback = _saveCallback;
     }
 
     public bool isAction()
     {
-        return (m_status == CharaStatus.idle ||
-                m_status == CharaStatus.walk);
+        Debug.Log("state : " + m_status);
+        return (m_status == CharaActionState.idle ||
+                m_status == CharaActionState.walk);
     }
+    
+
+    #region FOOD
+    public void EatFood()
+    {
+        Debug.Log("EatFood");
+
+        if (!isAction()) return;
+
+        bool success = m_controller.ExeFood(m_saveCallback,
+            () =>
+        {
+            // endCallback
+            Debug.Log("オワタ");
+            m_status = CharaActionState.idle;
+        });
+        
+        // status反映
+        if(success) m_status = CharaActionState.eat;
+    }
+    #endregion FOOD
+
+
 
 }

@@ -58,6 +58,7 @@ namespace CharaBreeding
         {
             UserInfoRecord userInfo = new UserInfoRecord();
             userInfo.userId = 1; // TODO ローカルなので一旦固定
+            userInfo.selectRoomId = 0;
             save.userInfo = userInfo;
          
             UserCharaRecord charaInfo = new UserCharaRecord();
@@ -68,7 +69,6 @@ namespace CharaBreeding
             Debug.Log(charaInfo);
             save.userChara = new UserCharaRecord[2];
             save.userChara[0] = charaInfo;
-            save.userChara[1] = charaInfo; // todo テスト
             
             UserRoomRecord roomInfo = new UserRoomRecord();
             roomInfo.userId = userInfo.userId;
@@ -107,6 +107,7 @@ namespace CharaBreeding
 
         private void SaveLogic(SaveCategory _category)
         {
+            Debug.Log("セーブしにきてる");
             string json = "";
             string fileName = "";
             switch (_category)
@@ -126,6 +127,7 @@ namespace CharaBreeding
                 
             }
             StreamWriter streamWriter = new StreamWriter(fileRootPath + fileName);
+            Debug.Log("saveFilePath:" + fileRootPath + fileName);
             streamWriter.Write(json);
             streamWriter.Flush();
             streamWriter.Close();

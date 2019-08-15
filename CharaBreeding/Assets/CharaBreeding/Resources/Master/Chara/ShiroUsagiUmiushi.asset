@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: ShiroUsagiUmiushi
   m_EditorClassIdentifier: 
   _master:
-    charaId: 2
     name: "\u30B7\u30ED\u30A6\u30B5\u30AE\u30A6\u30DF\u30A6\u30B7"
     imgName: Chara02
     assetName: ShiroUsagiUmiushi

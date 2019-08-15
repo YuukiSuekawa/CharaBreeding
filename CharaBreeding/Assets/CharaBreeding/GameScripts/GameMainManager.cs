@@ -1,4 +1,5 @@
-﻿using CharaBreeding.GameScripts.Interface;
+﻿using System.Runtime.InteropServices.ComTypes;
+using CharaBreeding.GameScripts.Interface;
 using UnityEngine;
 
 namespace CharaBreeding.GameScripts
@@ -34,6 +35,12 @@ namespace CharaBreeding.GameScripts
             {
                 // TODO タイトル表示
                 
+                // TODO 仮でBreedingInitする
+                foreach (var masterObj in m_masterObject)
+                {
+                    if(masterObj is BreedingSceneManager sceneManager)
+                        sceneManager.Init();
+                }
             }
             else
             {

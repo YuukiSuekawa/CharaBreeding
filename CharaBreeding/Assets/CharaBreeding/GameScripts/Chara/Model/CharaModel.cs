@@ -1,18 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CharaBreeding;
 using UnityEngine;
 
 public class CharaModel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private CharaMaster m_master;
+
+    private UserCharaRecord m_charaRecord;
+    public UserCharaRecord MCharaRecord => m_charaRecord;
+
+    private const int foodAddSatiety = 30;
+    
+    public void SetCharaData(CharaMaster _master,UserCharaRecord _record)
     {
-        
+        m_master = _master;
+        m_charaRecord = _record;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private bool isFood()
     {
+        if(m_master.maxSatiety <= m_charaRecord.status.satiety)
+        {
+            // 満腹状態
+            return false;
+        }
         
+        return true;
+    }
+
+    public bool ExeFood()
+    {
+        if (isFood())
+        {
+            m_charaRecord.status.satiety += foodAddSatiety;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

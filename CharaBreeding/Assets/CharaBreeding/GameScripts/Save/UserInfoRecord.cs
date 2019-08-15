@@ -6,6 +6,7 @@ namespace CharaBreeding
     public class UserInfoRecord
     {
         public int userId;
+        public int selectRoomId;
         public string lastUpdate;
     }
 }

@@ -32,7 +32,7 @@ namespace CharaBreeding
             yield return null;
         }
 
-        public void UpdateByFrame()
+        public virtual void UpdateByFrame()
         {
 //            Debug.Log("UpdateByFrame : " + GetType().Name);
         }
