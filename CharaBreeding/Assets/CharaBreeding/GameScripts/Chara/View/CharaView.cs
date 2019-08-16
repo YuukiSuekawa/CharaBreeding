@@ -39,18 +39,25 @@ public class CharaView : MonoBehaviour
 
         if (randNum > 5)
         {
+            charaObject.transform.rotation = Quaternion.Euler(0, 180, 0);
             rightTrg = true;
+        }
+        else
+        {
+            charaObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         
         
         if ((trans.rect.width/2) < (startPos.x + (moveX * moveCountMax)))
         {
             // 強制左
+            charaObject.transform.rotation = Quaternion.Euler(0, 0, 0);
             rightTrg = false;
         }
         else if (-(trans.rect.width/2) > (startPos.x - (moveX * moveCountMax)))
         {
             // 強制右
+            charaObject.transform.rotation = Quaternion.Euler(0, 180, 0);
             rightTrg = true;
         }
         
@@ -75,6 +82,7 @@ public class CharaView : MonoBehaviour
     {
         nowAnimFlg = true;
         charaObject.transform.localPosition = initPos;
+        charaObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         m_animator.SetTrigger(AnimatorAttack);
         yield return new WaitForSeconds(1f);
         m_animator.SetTrigger(AnimatorAttack);
