@@ -41,6 +41,8 @@ public class CharaBreedingManager : CharaManagerBase
 
     public override void UpdateByFrame()
     {
+        // TODO 各パラメータSubの計算はここでやる。
+        
     }
 
     public void SetCharaData(CharaMaster _master,UserCharaRecord _record,BreedingSceneManager.OnCharaSave _saveCallback)
