@@ -26,9 +26,8 @@ public class CharaController : MonoBehaviour
     }
 
     #region FOOD
-    public bool ExeFood(BreedingSceneManager.OnCharaSave _startCallback,UnityAction _endCallback)
+    public bool ExeFoodRequest(BreedingSceneManager.OnCharaSave _startCallback,UnityAction _endCallback)
     {
-        Debug.Log("ExeEat");
         if (m_model.ExeFood())
         {
             _startCallback(m_model.MCharaRecord);
@@ -38,13 +37,18 @@ public class CharaController : MonoBehaviour
         }
         else
         {
+            // TODO できればいやがる動作をさせたい
+            
             return false;
         }
     }
-
-    public void ExeSubFood()
-    {
-        
-    }
     #endregion FOOD
+
+    public void UpdateStatusRequest(BreedingSceneManager.OnCharaSave _saveCallback)
+    {
+        if (m_model.UpdateStatus())
+        {
+            _saveCallback(m_model.MCharaRecord);
+        }
+    }
 }

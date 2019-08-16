@@ -84,7 +84,7 @@ namespace CharaBreeding
 
         public void Save(SaveCategory _category)
         {
-            save.userInfo.lastUpdate = DateTime.Now.ToString("yyyyMMddHHmmss");
+            save.userInfo.lastUpdate = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             SaveLogic(SaveCategory.userInfo);
             switch (_category)
             {
