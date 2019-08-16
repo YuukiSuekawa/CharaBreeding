@@ -13,7 +13,7 @@ namespace CharaBreeding
         {
             userId = _userId;
             selectRoomId = _selectRoomId;
-            lastUpdate = DateTime.Now.ToString("yyyyMMddHHmmss");
+            lastUpdate = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
         }
     }
 }

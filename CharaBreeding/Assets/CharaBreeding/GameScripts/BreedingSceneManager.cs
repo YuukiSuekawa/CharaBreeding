@@ -88,7 +88,7 @@ namespace CharaBreeding.GameScripts
 
         private void SetUIEvent()
         {
-            m_uiMng.SetFoodEvent(m_charaMng.EatFood);
+            m_uiMng.SetFoodEvent(m_charaMng.EatFoodRequest);
         }
 
         public delegate void OnCharaSave(UserCharaRecord _record);

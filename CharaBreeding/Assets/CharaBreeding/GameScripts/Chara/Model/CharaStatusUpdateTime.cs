@@ -18,7 +18,7 @@ namespace CharaBreeding
 
         public void Init()
         {
-            string now = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string now = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             satietyAdd = now;
             satietySub = now;
             sleepnessAdd = now;
