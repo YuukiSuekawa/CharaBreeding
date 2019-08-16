@@ -44,8 +44,7 @@ namespace CharaBreeding
 
             if (File.Exists(fileRootPath + userSaveFile))
             {
-//                Load();
-                Init();
+                Load();
             }
             else
             {
