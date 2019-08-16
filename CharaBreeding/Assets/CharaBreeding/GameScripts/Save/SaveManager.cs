@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using CharaBreeding.GameScripts;
+using CharaBreeding.GameScripts.Interface;
 using CharaBreeding.Util;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace CharaBreeding
         charaInfo
     }
     
-    public class SaveManager : SingletonMonoBehaviour<SaveManager>
+    public class SaveManager : SingletonMonoBehaviour<SaveManager>,IMasterObj,IUpdateByFrame
     {
         private string fileRootPath;
         public SaveData save;
@@ -55,29 +56,30 @@ namespace CharaBreeding
 
         private void Init()
         {
+            int initUserId = 1;
+            int initCharaId = 0;
+            int initRoomId = 0;
+            
             UserInfoRecord userInfo = new UserInfoRecord();
-            userInfo.userId = 1; // TODO ローカルなので一旦固定
+            userInfo.Init(initUserId,initRoomId);
             save.userInfo = userInfo;
          
             UserCharaRecord charaInfo = new UserCharaRecord();
-            charaInfo.userId = userInfo.userId;
-            charaInfo.charaId = 0;
-            charaInfo.status = new CharaStatus();
-            Debug.Log(save);
-            Debug.Log(charaInfo);
-            save.userChara = new UserCharaRecord[2];
+            charaInfo.Init(userInfo.userId,initCharaId);
+            save.userChara = new UserCharaRecord[1]; // TODO この配列数どうするか・・・後でResizeかます？
             save.userChara[0] = charaInfo;
-            save.userChara[1] = charaInfo; // todo テスト
             
             UserRoomRecord roomInfo = new UserRoomRecord();
-            roomInfo.userId = userInfo.userId;
-            roomInfo.roomId = 0;
-            roomInfo.charaId = charaInfo.charaId;
-            roomInfo.dirty = 0;
-            save.userRoom = new UserRoomRecord[1];
+            roomInfo.Init(initUserId,initRoomId,initCharaId);
+            save.userRoom = new UserRoomRecord[1]; // TODO この配列数どうするか・・・後でResizeかます？
             save.userRoom[0] = roomInfo;
 
             Save(SaveCategory.all);
+        }
+
+        public void UpdateByFrame()
+        {
+            
         }
 
         public void Save(SaveCategory _category)
@@ -120,6 +122,7 @@ namespace CharaBreeding
                 
             }
             StreamWriter streamWriter = new StreamWriter(fileRootPath + fileName);
+            Debug.Log("saveFilePath:" + fileRootPath + fileName);
             streamWriter.Write(json);
             streamWriter.Flush();
             streamWriter.Close();
@@ -170,9 +173,12 @@ namespace CharaBreeding
 #if UNITY_EDITOR
             Debug.Log("save file check");
             Debug.Log("filePath " + fileRootPath);
-            Debug.Log("userInfo " + save.userInfo);
-            Debug.Log("userChara len " + save.userChara.Length);
-            Debug.Log("userRoom len " + save.userRoom.Length);
+            if(save.userInfo != null)
+                Debug.Log("userInfo " + save.userInfo);
+            if(save.userChara != null)
+                Debug.Log("userChara len " + save.userChara.Length);
+            if(save.userRoom != null)
+                Debug.Log("userRoom len " + save.userRoom.Length);
 #endif
             return (save.userInfo != null &&
                 save.userRoom != null &&

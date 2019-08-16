@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GomahuBirodoUmiushi
   m_EditorClassIdentifier: 
   _master:
+    charaId: 1
     name: "\u30B4\u30DE\u30D5\u30D3\u30ED\u30FC\u30C9\u30A6\u30DF\u30A6\u30B7"
     imgName: Chara01
     assetName: GomahuBirodoUmiushi

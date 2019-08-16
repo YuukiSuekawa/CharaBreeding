@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6985fc7eef1465bbb306721a9dfe18c, type: 3}
-  m_Name: ShiroUsagiUmiushi
+  m_Name: AoUmiushi
   m_EditorClassIdentifier: 
   _master:
-    charaId: 2
-    name: "\u30B7\u30ED\u30A6\u30B5\u30AE\u30A6\u30DF\u30A6\u30B7"
-    imgName: Chara02
-    assetName: ShiroUsagiUmiushi
+    name: "\u30A2\u30AA\u30A6\u30DF\u30A6\u30B7"
+    imgName: Chara00
+    assetName: AoUmiushi
     category: "\u3046\u307F\u3046\u3057"
-    speed: 3
-    maxSatiety: 120
-    maxSleepiness: 150
-    maxHumor: 150
-    sickParcent: 80
-    maxToilet: 200
+    speed: 1
+    maxSatiety: 100
+    maxSleepiness: 100
+    maxHumor: 100
+    sickParcent: 50
+    maxToilet: 100
