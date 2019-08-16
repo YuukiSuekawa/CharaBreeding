@@ -66,7 +66,8 @@ public class CharaModel : MonoBehaviour
     #region UPDATE_STATUS
     public bool UpdateStatus()
     {
-        bool updateFlg = false;
+        bool updateFlg;
+        updateFlg = false;
 
         // TODO 部屋の状態を引数でもらってきたほうがいいかも
 

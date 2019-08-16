@@ -11,6 +11,7 @@ public class CharaController : MonoBehaviour
     
     private const int SUB_SATIETY = 5;
 
+    private Coroutine freeAnim;
     
     private void Awake()
     {
@@ -32,13 +33,13 @@ public class CharaController : MonoBehaviour
         {
             _startCallback(m_model.MCharaRecord);
             // ビュー反映
+            StopFreeAnim();
             StartCoroutine(m_view.AnimFood(_endCallback));
             return true;
         }
         else
         {
             // TODO できればいやがる動作をさせたい
-            
             return false;
         }
     }
@@ -51,4 +52,22 @@ public class CharaController : MonoBehaviour
             _saveCallback(m_model.MCharaRecord);
         }
     }
+
+    public void UpdateFreeAnimRequest()
+    {
+        if (freeAnim != null) return;
+        if (m_view.NowAnimFlg) return;
+        int randNum = Random.Range(0, 10);
+        if (randNum > 5)
+        {
+            freeAnim = StartCoroutine(m_view.AnimWalk(() => { freeAnim = null; }));
+        }
+    }
+
+    private void StopFreeAnim()
+    {
+        if (freeAnim != null) StopCoroutine(freeAnim);
+        freeAnim = null;
+    }
+    
 }

@@ -17,7 +17,9 @@ public class CharaBreedingManager : CharaManagerBase
     // TODO View：表示系。アニメーション命令はこいつに。
 
     private const float UPDATE_STATUS_SEC = 1.0f; // 必ず60以下で
-    private float m_updatedTime;
+    private float m_updatedStatusTime;
+    private const float UPDATE_ANIM_SEC = 1.0f;
+    private float m_updatedAnimTime;
 
     private CharaController m_controller;
     
@@ -45,11 +47,18 @@ public class CharaBreedingManager : CharaManagerBase
 
     public override void UpdateByFrame()
     {
-        m_updatedTime += Time.deltaTime;
-        if (m_updatedTime >= UPDATE_STATUS_SEC)
+        m_updatedStatusTime += Time.deltaTime;
+        if (m_updatedStatusTime >= UPDATE_STATUS_SEC)
         {
-            m_updatedTime = 0;
+            m_updatedStatusTime = 0;
             UpdateStatusRequest(m_saveCallback);
+        }
+
+        m_updatedAnimTime += Time.deltaTime;
+        if (m_updatedAnimTime >= UPDATE_ANIM_SEC)
+        {
+            m_updatedAnimTime = 0;
+            UpdateFreeAnimRequest();
         }
     }
 
@@ -57,12 +66,12 @@ public class CharaBreedingManager : CharaManagerBase
     {
         m_controller.SetCharaData(_master,_record);
         m_saveCallback = _saveCallback;
-        m_updatedTime = Time.deltaTime;
+        m_updatedStatusTime = Time.deltaTime;
+        m_updatedAnimTime = Time.deltaTime;
     }
 
     public bool IsAction()
     {
-        Debug.Log("state : " + m_status);
         return (m_status == CharaActionState.idle ||
                 m_status == CharaActionState.walk);
     }
@@ -72,14 +81,11 @@ public class CharaBreedingManager : CharaManagerBase
     
     private void UpdateStatusRequest(BreedingSceneManager.OnCharaSave _saveCallback)
     {
-        Debug.Log("UpdateStatus");
         m_controller.UpdateStatusRequest(_saveCallback);
     }
     
     public void EatFoodRequest()
     {
-        Debug.Log("EatFood");
-
         if (!IsAction()) return;
 
         bool success = m_controller.ExeFoodRequest(m_saveCallback,
@@ -92,6 +98,11 @@ public class CharaBreedingManager : CharaManagerBase
         
         // status反映
         if(success) m_status = CharaActionState.eat;
+    }
+
+    private void UpdateFreeAnimRequest()
+    {
+        m_controller.UpdateFreeAnimRequest();
     }
     #endregion REQUEST
 }
