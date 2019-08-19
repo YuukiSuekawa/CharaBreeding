@@ -90,6 +90,7 @@ public class CharaView : MonoBehaviour
         GameObject foodObj = Instantiate(m_FoodPrefab);
         foodObj.transform.SetParent(m_FoodRoot.transform);
         foodObj.transform.localPosition = Vector3.zero;
+        foodObj.transform.localScale = Vector3.one;
 
         Animator foodAnimator = foodObj.GetComponent<Animator>();
         
@@ -118,7 +119,7 @@ public class CharaView : MonoBehaviour
         nowAnimFlg = true;
         float time = 0.5f;
         int rotateCount = 3;
-        charaObject.transform.localPosition = initPos;
+        charaObject.transform.localPosition = initPos;        
         for (int i = 0; i < rotateCount; i++)
         {
             charaObject.transform.rotation = Quaternion.Euler(0, 0, 0);

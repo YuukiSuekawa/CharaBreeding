@@ -13,19 +13,26 @@ namespace CharaBreeding
         
         public UserCharaRecord GetSelectUserCharaRecord()
         {
-            int selectedRoomId = userInfo.selectRoomId;
-            int selectedCharaId = -1;
-            foreach (var roomRecord in userRoom)
-            {
-                if (roomRecord.roomId == selectedRoomId)
-                    selectedCharaId = roomRecord.charaId;
-            }
+            UserRoomRecord roomRecord = GetSelectUserRoomRecord();
+            int selectedCharaId = roomRecord.charaId;
 
             foreach (var charaRecord in userChara)
             {
                 if (charaRecord.charaId == selectedCharaId)
                     return charaRecord;
             }
+            return null;
+        }
+
+        public UserRoomRecord GetSelectUserRoomRecord()
+        {
+            int selectedRoomId = userInfo.selectRoomId;
+            foreach (var roomRecord in userRoom)
+            {
+                if (roomRecord.roomId == selectedRoomId)
+                    return roomRecord;
+            }
+
             return null;
         }
     }
