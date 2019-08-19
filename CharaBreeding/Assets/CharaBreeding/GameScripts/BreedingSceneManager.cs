@@ -89,14 +89,25 @@ namespace CharaBreeding.GameScripts
         private void SetUIEvent()
         {
             
-            m_uiMng.SetFoodEvent(m_charaMng.EatFoodRequest);
+            m_uiMng.SetFoodEvent(() =>
+            {
+                if(m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
+                    m_charaMng.EatFoodRequest();
+            });
             m_uiMng.SetPlayEvent(() =>
             {
-                // todo 仮でうんこを生成
-                int testPoopNum = 2;
-                m_roomMng.CreatePoopRequest(testPoopNum);
+                if (m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
+                {
+                    // todo 仮でうんこを生成
+                    int testPoopNum = 2;
+                    m_roomMng.CreatePoopRequest(testPoopNum);
+                }
             });
-            m_uiMng.SetToiletEvent(m_roomMng.CleanToiletReuest);
+            m_uiMng.SetToiletEvent(() =>
+            {
+                if(m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
+                    m_roomMng.CleanToiletReuest();
+            });
         }
 
         #region CHARA_MANAGE

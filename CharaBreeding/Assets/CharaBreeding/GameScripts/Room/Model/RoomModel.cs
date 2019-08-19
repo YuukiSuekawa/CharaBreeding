@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CharaBreeding;
 using UnityEditor.U2D;
@@ -28,6 +29,22 @@ public class RoomModel : MonoBehaviour
                 m_roomRecord.dirty = Common.POOP_MAX;
             return true;
         }
+        return false;
+    }
+
+    private bool isCleanToilet()
+    {
+        return (m_roomRecord.dirty > 0);
+    }
+
+    public bool ExeCleanToilet()
+    {
+        if (isCleanToilet())
+        {
+            m_roomRecord.dirty = 0;
+            return true;
+        }
+
         return false;
     }
 }

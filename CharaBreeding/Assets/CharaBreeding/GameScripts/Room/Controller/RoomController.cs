@@ -25,12 +25,25 @@ public class RoomController : MonoBehaviour
         }
     }
 
+    public bool CleenToiletRequest(BreedingSceneManager.OnRoomSave _startCallback, UnityAction _endCallback)
+    {
+        if (m_model.ExeCleanToilet())
+        {
+            _startCallback(m_model.MRoomRecord);
+            StartCoroutine(m_view.ExeCreanToilet(_endCallback));
+            return true;
+        }
+
+        return false;
+    }
+
     public bool CreatePoopRequest(int _poopNum,BreedingSceneManager.OnRoomSave _startCallback,UnityAction _endCallback)
     {
         if (m_model.ExeCreatePoop(_poopNum))
         {
             _startCallback(m_model.MRoomRecord);
             m_view.ExePoop(_poopNum);
+            _endCallback();
             return true;
         }
 

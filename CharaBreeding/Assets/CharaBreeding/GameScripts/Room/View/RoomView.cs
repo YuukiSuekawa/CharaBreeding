@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CharaBreeding;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoomView : MonoBehaviour
 {
     [SerializeField] private GameObject m_poopRoot;
     [SerializeField] private GameObject m_poopPrefab;
+    [SerializeField] private GameObject m_toiletPrefab;
 
     private List<GameObject> m_poops = new List<GameObject>();
 
@@ -57,8 +60,21 @@ public class RoomView : MonoBehaviour
         }
     }
 
-    private void CreanPoop()
+    public IEnumerator ExeCreanToilet(UnityAction _callback)
     {
-            
+        GameObject toiletObj = Instantiate(m_toiletPrefab);
+        toiletObj.transform.SetParent(m_poopRoot.transform);
+        toiletObj.transform.localPosition = new Vector3(0, 150);
+        Animator toiletAnim = toiletObj.GetComponent<Animator>();
+        AnimatorStateInfo animStateInfo = toiletAnim.GetCurrentAnimatorStateInfo(0);
+        yield return new WaitForSeconds(animStateInfo.length / 2);
+        foreach (var poop in m_poops)
+        {
+            Destroy(poop);
+        }
+        m_poops = new List<GameObject>();
+        yield return new WaitForSeconds(animStateInfo.length / 2);
+        Destroy(toiletObj);
+        _callback();
     }
 }
