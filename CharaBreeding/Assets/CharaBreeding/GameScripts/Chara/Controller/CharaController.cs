@@ -39,7 +39,8 @@ public class CharaController : MonoBehaviour
         }
         else
         {
-            // TODO できればいやがる動作をさせたい
+            StopFreeAnim();
+            StartCoroutine(m_view.AnimDecline(_endCallback));
             return false;
         }
     }
@@ -55,6 +56,7 @@ public class CharaController : MonoBehaviour
 
     public void UpdateFreeAnimRequest()
     {
+        // 他のアニメ中は通さない
         if (freeAnim != null) return;
         if (m_view.NowAnimFlg) return;
         int randNum = Random.Range(0, 10);
