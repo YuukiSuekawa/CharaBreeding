@@ -19,6 +19,10 @@ public class RoomController : MonoBehaviour
     public void SetRoomData(UserRoomRecord _record)
     {
         m_model.SetRoomData(_record);
+        if (_record.dirty > 0)
+        {
+            m_view.ExePoop(_record.dirty);
+        }
     }
 
     public bool CreatePoopRequest(int _poopNum,BreedingSceneManager.OnRoomSave _startCallback,UnityAction _endCallback)
