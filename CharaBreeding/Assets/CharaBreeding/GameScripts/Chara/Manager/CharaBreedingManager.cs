@@ -70,7 +70,7 @@ public class CharaBreedingManager : CharaManagerBase
         m_updatedAnimTime = Time.deltaTime;
     }
 
-    public bool IsAction()
+    public bool IsActionPossible()
     {
         return (m_status == CharaActionState.idle ||
                 m_status == CharaActionState.walk);
@@ -86,7 +86,7 @@ public class CharaBreedingManager : CharaManagerBase
     
     public void EatFoodRequest()
     {
-        if (!IsAction()) return;
+        if (!IsActionPossible()) return;
 
         bool success = m_controller.ExeFoodRequest(m_saveCallback,
             () =>

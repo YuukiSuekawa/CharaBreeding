@@ -9,5 +9,7 @@
             sleep,
             sick
         }
+
+        public const int POOP_MAX = 10;
     }
 }

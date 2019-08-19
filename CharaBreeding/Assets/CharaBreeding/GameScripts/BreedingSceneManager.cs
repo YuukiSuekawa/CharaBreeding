@@ -15,7 +15,7 @@ namespace CharaBreeding.GameScripts
     public class BreedingSceneManager : SceneManagerBase
     {
         private CharaBreedingManager m_charaMng;
-        private RoomManagerBase m_roomMng;
+        private RoomBreedingManager m_roomMng;
         private UIBreedingManager m_uiMng;
 
         private ScriptableCharaMaster[] m_charaMasters;
@@ -62,7 +62,7 @@ namespace CharaBreeding.GameScripts
             SearchMng();
             SetUIEvent();
             SetCharaData();
-
+            SetRoomData();
         }
 
         private void SearchMng()
@@ -72,7 +72,7 @@ namespace CharaBreeding.GameScripts
                 if (list is CharaBreedingManager charaMng)
                     m_charaMng = charaMng;
 
-                if (list is RoomManagerBase roomMng)
+                if (list is RoomBreedingManager roomMng)
                     m_roomMng = roomMng;
 
                 if (list is UIBreedingManager uiMng)
@@ -88,9 +88,29 @@ namespace CharaBreeding.GameScripts
 
         private void SetUIEvent()
         {
-            m_uiMng.SetFoodEvent(m_charaMng.EatFoodRequest);
+            
+            m_uiMng.SetFoodEvent(() =>
+            {
+                if(m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
+                    m_charaMng.EatFoodRequest();
+            });
+            m_uiMng.SetPlayEvent(() =>
+            {
+                if (m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
+                {
+                    // todo 仮でうんこを生成
+                    int testPoopNum = 2;
+                    m_roomMng.CreatePoopRequest(testPoopNum);
+                }
+            });
+            m_uiMng.SetToiletEvent(() =>
+            {
+                if(m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
+                    m_roomMng.CleanToiletReuest();
+            });
         }
 
+        #region CHARA_MANAGE
         public delegate void OnCharaSave(UserCharaRecord _record);
 
         private void SetCharaData()
@@ -131,5 +151,36 @@ namespace CharaBreeding.GameScripts
             SaveManager.Instance.save.userChara[i] = _record;
             SaveManager.Instance.Save(SaveCategory.charaInfo);
         }
+        #endregion CHARA_MANAGE
+        #region ROOM_MANAGE
+
+        public delegate void OnRoomSave(UserRoomRecord _record);
+
+        private void SetRoomData()
+        {
+            UserRoomRecord selectedRoomRecord = SaveManager.Instance.save.GetSelectUserRoomRecord();
+            OnRoomSave callback = (_record) => { RoomSave(_record); };
+            m_roomMng.SetRoomData(selectedRoomRecord,callback);
+        }
+        
+        private void RoomSave(UserRoomRecord _record)
+        {
+            int i = 0;
+            foreach (var roomRecord in SaveManager.Instance.save.userRoom)
+            {
+                if (roomRecord.roomId == _record.roomId)
+                {
+                    break;
+                }
+
+                i++;
+            }
+
+            SaveManager.Instance.save.userRoom[i] = _record;
+            SaveManager.Instance.Save(SaveCategory.roomInfo);
+        }
+
+        #endregion ROOM_MANAGE
     }
+    
 }
