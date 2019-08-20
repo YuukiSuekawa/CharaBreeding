@@ -1,5 +1,4 @@
-﻿using Boo.Lang;
-using CharaBreeding.GameScripts.Interface;
+﻿using CharaBreeding.GameScripts.Interface;
 using UnityEngine;
 
 namespace CharaBreeding.GameScripts.Room

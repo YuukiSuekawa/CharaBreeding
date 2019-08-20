@@ -54,6 +54,14 @@ public class CharaController : MonoBehaviour
         }
     }
 
+    public void ExePoopRequest(BreedingSceneManager.OnCharaSave _saveCallback,BreedingSceneManager.OnPoop _callback)
+    {
+        if (m_model.ExePoop(_callback))
+        {
+            _saveCallback(m_model.MCharaRecord);
+        }
+    }
+
     public void UpdateFreeAnimRequest()
     {
         // 他のアニメ中は通さない
