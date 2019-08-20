@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using CharaBreeding;
+using CharaBreeding.GameScripts;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharaModel : MonoBehaviour
 {
@@ -11,8 +13,7 @@ public class CharaModel : MonoBehaviour
     private UserCharaRecord m_charaRecord;
     public UserCharaRecord MCharaRecord => m_charaRecord;
 
-    private const int FOOD_ADD_SATIETY = 30;
-    private const int FOOD_ADD_HUMOR = 10;
+
 
     private Common.CharaState state;
     
@@ -32,6 +33,14 @@ public class CharaModel : MonoBehaviour
     private const int SUB_SLEEPING_TOILET_SEC = 3600 / UPDATE_SPEED;
     private const int UPDATE_SUB_SLEEPING_TOILET = 10;
     private const int CHECK_TOILET_SEC = 2400 / UPDATE_SPEED;
+
+    private const int FOOD_ADD_SATIETY = 30;
+    private const int FOOD_ADD_HUMOR = 10;
+    private const int FOOD_SUB_TOILET = 10;
+    
+    private const int POOP_SATIETY_BORDER = 50;
+    private const int POOP_SUB_SATIETY = 15;
+    private const int POOP_ADD_TOILET = 10;
     
     public void SetCharaData(CharaMaster _master,UserCharaRecord _record)
     {
@@ -56,7 +65,11 @@ public class CharaModel : MonoBehaviour
         if (isFood())
         {
             m_charaRecord.status.satiety += FOOD_ADD_SATIETY;
+            if (m_charaRecord.status.satiety > m_master.maxSatiety) m_charaRecord.status.satiety = m_master.maxSatiety;
             m_charaRecord.status.humor += FOOD_ADD_HUMOR;
+            if (m_charaRecord.status.humor > m_master.maxHumor) m_charaRecord.status.humor = m_master.maxHumor;
+            m_charaRecord.status.toilet -= FOOD_SUB_TOILET;
+            if (m_charaRecord.status.toilet < 0) m_charaRecord.status.toilet = 0;
             m_charaRecord.time.satietyAdd = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             return true;
         }
@@ -201,4 +214,43 @@ public class CharaModel : MonoBehaviour
     }
     
     #endregion UPDATE_STATUS
+    #region CHECK_STATUS
+
+    private int IsPoop()
+    {
+        if (m_charaRecord.status.toilet >= m_master.maxToilet) return 0;
+
+        DateTime oldDate = DateTime.Parse(m_charaRecord.time.toiletAdd);
+        DateTime nowDate = DateTime.Now;
+        double msec = (nowDate - oldDate).TotalMilliseconds;
+        double subSec = (msec / 1000) / CHECK_TOILET_SEC;
+        return (int)Math.Floor(subSec);
+    }
+
+    public bool ExePoop(BreedingSceneManager.OnPoop _callback)
+    {
+        int exeCount = IsPoop();
+        if (exeCount > 0)
+        {
+            Debug.Log("ExePoop");
+            int poopSum = 0;
+            for (int i = 0; i < exeCount; i++)
+            {
+                if (m_charaRecord.status.toilet >= m_master.maxToilet) break;
+                
+                int poopNum = (m_charaRecord.status.satiety > POOP_SATIETY_BORDER) ? 2 : 1;
+                m_charaRecord.status.satiety -= POOP_SUB_SATIETY * poopNum;
+                if (m_charaRecord.status.satiety < 0) m_charaRecord.status.satiety = 0;
+                m_charaRecord.status.toilet += POOP_ADD_TOILET * poopNum;
+                if (m_charaRecord.status.toilet > m_master.maxToilet) m_charaRecord.status.toilet = m_master.maxToilet;
+                poopSum += poopNum;
+            }
+            _callback(poopSum);
+            m_charaRecord.time.toiletAdd = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            return true;
+        }
+
+        return false;
+    }
+    #endregion CHECK_STATUS
 }

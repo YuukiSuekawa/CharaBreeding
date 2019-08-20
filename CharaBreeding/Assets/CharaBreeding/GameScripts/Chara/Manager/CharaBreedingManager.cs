@@ -26,6 +26,8 @@ public class CharaBreedingManager : CharaManagerBase
     private CharaActionState m_status = CharaActionState.idle;
 
     private BreedingSceneManager.OnCharaSave m_saveCallback;
+
+    private BreedingSceneManager.OnPoop m_poopCallback;
     
     public enum CharaActionState
     {
@@ -51,7 +53,8 @@ public class CharaBreedingManager : CharaManagerBase
         if (m_updatedStatusTime >= UPDATE_STATUS_SEC)
         {
             m_updatedStatusTime = 0;
-            UpdateStatusRequest(m_saveCallback);
+            UpdateStatusRequest();
+            ExePoopRequest();
         }
 
         m_updatedAnimTime += Time.deltaTime;
@@ -62,12 +65,17 @@ public class CharaBreedingManager : CharaManagerBase
         }
     }
 
-    public void SetCharaData(CharaMaster _master,UserCharaRecord _record,BreedingSceneManager.OnCharaSave _saveCallback)
+    public void SetCharaData(CharaMaster _master,UserCharaRecord _record)
     {
         m_controller.SetCharaData(_master,_record);
-        m_saveCallback = _saveCallback;
         m_updatedStatusTime = Time.deltaTime;
         m_updatedAnimTime = Time.deltaTime;
+    }
+
+    public void SetCallback(BreedingSceneManager.OnCharaSave _saveCallback,BreedingSceneManager.OnPoop _poopCallback)
+    {
+        m_saveCallback = _saveCallback;
+        m_poopCallback = _poopCallback;
     }
 
     public bool IsActionPossible()
@@ -79,9 +87,14 @@ public class CharaBreedingManager : CharaManagerBase
 
     #region REQUEST
     
-    private void UpdateStatusRequest(BreedingSceneManager.OnCharaSave _saveCallback)
+    private void UpdateStatusRequest()
     {
-        m_controller.UpdateStatusRequest(_saveCallback);
+        m_controller.UpdateStatusRequest(m_saveCallback);
+    }
+
+    private void ExePoopRequest()
+    {
+        m_controller.ExePoopRequest(m_saveCallback,m_poopCallback);
     }
     
     public void EatFoodRequest()

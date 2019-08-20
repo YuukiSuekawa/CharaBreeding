@@ -61,6 +61,7 @@ namespace CharaBreeding.GameScripts
             Debug.Log("SceneManager Init");
             SearchMng();
             SetUIEvent();
+            SetCharaEvent();
             SetCharaData();
             SetRoomData();
         }
@@ -99,7 +100,7 @@ namespace CharaBreeding.GameScripts
                 if (m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
                 {
                     // todo 仮でうんこを生成
-                    int testPoopNum = 2;
+                    int testPoopNum = 8;
                     m_roomMng.CreatePoopRequest(testPoopNum);
                 }
             });
@@ -110,6 +111,13 @@ namespace CharaBreeding.GameScripts
             });
         }
 
+        public delegate void OnPoop(int _poopNum);
+        private void SetCharaEvent()
+        {
+            OnCharaSave saveCallback = (_record) => { CharaSave(_record); };
+            OnPoop poopCallback = (_poopNum) => { m_roomMng.CreatePoopRequest(_poopNum); };
+            m_charaMng.SetCallback(saveCallback,poopCallback);
+        }
         #region CHARA_MANAGE
         public delegate void OnCharaSave(UserCharaRecord _record);
 
@@ -117,11 +125,7 @@ namespace CharaBreeding.GameScripts
         {
             UserCharaRecord selectedCharaRecord = SaveManager.Instance.save.GetSelectUserCharaRecord();
             CharaMaster charaMaster = SearchCharaMaster(selectedCharaRecord.charaId);
-            OnCharaSave callback = (_record) =>
-            {
-                CharaSave(_record);
-            };
-            m_charaMng.SetCharaData(charaMaster,selectedCharaRecord,callback);
+            m_charaMng.SetCharaData(charaMaster,selectedCharaRecord);
         }
 
         private CharaMaster SearchCharaMaster(int _charaId)
