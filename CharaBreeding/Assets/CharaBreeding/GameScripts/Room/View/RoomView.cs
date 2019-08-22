@@ -34,6 +34,7 @@ public class RoomView : MonoBehaviour
             GameObject poopObj = Instantiate(m_poopPrefab);
             m_poops.Add(poopObj);
             poopObj.transform.SetParent(m_poopRoot.transform);
+            poopObj.transform.localScale = new Vector3(4,4);
                 
             float posY = 0f;
             float posX = 0f;

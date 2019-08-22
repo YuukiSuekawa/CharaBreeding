@@ -110,6 +110,12 @@ namespace CharaBreeding.GameScripts
                 if(m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
                     m_roomMng.CleanToiletReuest();
             });
+            
+            m_uiMng.SetSickEvent(() =>
+            {
+                if(m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
+                    m_charaMng.ExeInjectionRequest();
+            });
         }
 
         public delegate void OnPoop(int _poopNum);
