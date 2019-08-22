@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using CharaBreeding.GameScripts.Room;
 using CharaBreeding.GameScripts.UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 namespace CharaBreeding.GameScripts
@@ -100,7 +101,7 @@ namespace CharaBreeding.GameScripts
                 if (m_charaMng.IsActionPossible() && m_roomMng.IsActionPossible())
                 {
                     // todo 仮でうんこを生成
-                    int testPoopNum = 8;
+                    int testPoopNum = 2;
                     m_roomMng.CreatePoopRequest(testPoopNum);
                 }
             });
@@ -116,7 +117,8 @@ namespace CharaBreeding.GameScripts
         {
             OnCharaSave saveCallback = (_record) => { CharaSave(_record); };
             OnPoop poopCallback = (_poopNum) => { m_roomMng.CreatePoopRequest(_poopNum); };
-            m_charaMng.SetCallback(saveCallback,poopCallback);
+            GetRoomPoopNum getRoomPoop = () => { return m_roomMng.GetRoomPoopNum(); };
+            m_charaMng.SetCallback(saveCallback,poopCallback,getRoomPoop);
         }
         #region CHARA_MANAGE
         public delegate void OnCharaSave(UserCharaRecord _record);
@@ -159,6 +161,8 @@ namespace CharaBreeding.GameScripts
         #region ROOM_MANAGE
 
         public delegate void OnRoomSave(UserRoomRecord _record);
+
+        public delegate int GetRoomPoopNum();
 
         private void SetRoomData()
         {

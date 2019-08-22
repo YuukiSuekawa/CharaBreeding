@@ -2,14 +2,7 @@
 {
     public static class Common
     {
-        public enum CharaState
-        {
-            none = 0,
-            normal,
-            sleep,
-            sick
-        }
-
         public const int POOP_MAX = 10;
+        public const int CHARA_SIZE = 16;
     }
 }

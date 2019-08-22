@@ -791,6 +791,10 @@ MonoBehaviour:
   m_FoodRoot: {fileID: 743208784}
   m_FoodPrefab: {fileID: 4750742601287856615, guid: ada9170ebebcedb44b3d7580ebbf6c10,
     type: 3}
+  m_SickPrefab: {fileID: 5110099232194464406, guid: 99ac6b49a02db8f49b9bf2a9986946f9,
+    type: 3}
+  m_SleepingPrefab: {fileID: 5110099232194464406, guid: 99ac6b49a02db8f49b9bf2a9986946f9,
+    type: 3}
 --- !u!114 &465304897
 MonoBehaviour:
   m_ObjectHideFlags: 0
