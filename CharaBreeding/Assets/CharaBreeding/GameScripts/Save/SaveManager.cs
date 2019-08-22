@@ -44,7 +44,11 @@ namespace CharaBreeding
 
             if (File.Exists(fileRootPath + userSaveFile))
             {
+                #if FORCE_INIT
+                Init();
+                #else
                 Load();
+                #endif
             }
             else
             {

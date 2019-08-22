@@ -23,6 +23,11 @@ public class RoomController : MonoBehaviour
         }
     }
 
+    public int GetRoomPoopNum()
+    {
+        return m_model.MRoomRecord.dirty;
+    }
+
     public bool CleenToiletRequest(BreedingSceneManager.OnRoomSave _startCallback, UnityAction _endCallback)
     {
         if (m_model.ExeCleanToilet())

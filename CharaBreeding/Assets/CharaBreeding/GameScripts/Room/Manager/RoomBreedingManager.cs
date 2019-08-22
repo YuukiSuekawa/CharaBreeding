@@ -27,6 +27,11 @@
             m_saveCallback = _saveCallback;
         }
 
+        public int GetRoomPoopNum()
+        {
+            return m_controller.GetRoomPoopNum();
+        }
+
         public bool IsActionPossible()
         {
             return (m_status == RoomActionState.none ||

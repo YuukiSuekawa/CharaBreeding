@@ -24,8 +24,20 @@ public class CharaController : MonoBehaviour
     public void SetCharaData(CharaMaster _master,UserCharaRecord _record)
     {
         m_model.SetCharaData(_master,_record);
+        m_view.SetCharaData(_record);
     }
 
+    #region UPDATE_STATUS
+    public void UpdateStatusRequest(BreedingSceneManager.OnCharaSave _saveCallback)
+    {
+        if (m_model.UpdateStatus())
+        {
+            _saveCallback(m_model.MCharaRecord);
+        }
+    }
+    #endregion UPDATE_STATUS
+
+    
     #region FOOD
     public bool ExeFoodRequest(BreedingSceneManager.OnCharaSave _startCallback,UnityAction _endCallback)
     {
@@ -46,14 +58,7 @@ public class CharaController : MonoBehaviour
     }
     #endregion FOOD
 
-    public void UpdateStatusRequest(BreedingSceneManager.OnCharaSave _saveCallback)
-    {
-        if (m_model.UpdateStatus())
-        {
-            _saveCallback(m_model.MCharaRecord);
-        }
-    }
-
+    #region POOP
     public void ExePoopRequest(BreedingSceneManager.OnCharaSave _saveCallback,BreedingSceneManager.OnPoop _callback)
     {
         if (m_model.ExePoop(_callback))
@@ -61,7 +66,21 @@ public class CharaController : MonoBehaviour
             _saveCallback(m_model.MCharaRecord);
         }
     }
+    #endregion POOP
+    
+    #region SICK
 
+    public void ExeSickRequest(BreedingSceneManager.OnCharaSave _saveCallback,int _poopNum)
+    {
+        if (m_model.ExeSick(_poopNum))
+        {
+            _saveCallback(m_model.MCharaRecord);
+            m_view.SetCharaData(m_model.MCharaRecord);
+        }
+    }
+    #endregion SICK
+    
+    #region FREE_ANIM
     public void UpdateFreeAnimRequest()
     {
         // 他のアニメ中は通さない
@@ -79,5 +98,6 @@ public class CharaController : MonoBehaviour
         if (freeAnim != null) StopCoroutine(freeAnim);
         freeAnim = null;
     }
+    #endregion FREE_ANIM
     
 }

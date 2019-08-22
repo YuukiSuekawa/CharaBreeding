@@ -11,8 +11,7 @@ namespace CharaBreeding
         public string sleepnessSub;
         public string humorAdd;
         public string humorSub;
-        public string sickAdd;
-        public string sickSub;
+        public string sickCheck;
         public string toiletAdd;
         public string toiletSub;
 
@@ -25,8 +24,7 @@ namespace CharaBreeding
             sleepnessSub = now;
             humorAdd = now;
             humorSub = now;
-            sickAdd = now;
-            sickSub = now;
+            sickCheck = now;
             toiletAdd = now;
             toiletSub = now;            
         }

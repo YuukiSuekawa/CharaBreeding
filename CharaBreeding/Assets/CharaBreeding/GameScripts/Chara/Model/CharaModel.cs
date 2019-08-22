@@ -5,6 +5,7 @@ using CharaBreeding;
 using CharaBreeding.GameScripts;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class CharaModel : MonoBehaviour
 {
@@ -12,10 +13,6 @@ public class CharaModel : MonoBehaviour
 
     private UserCharaRecord m_charaRecord;
     public UserCharaRecord MCharaRecord => m_charaRecord;
-
-
-
-    private Common.CharaState state;
     
     #if SUEKAWA
     private const int UPDATE_SPEED = 20;
@@ -29,7 +26,7 @@ public class CharaModel : MonoBehaviour
     private const int UPDATE_SUB_SLEEPINESS = 1;
     private const int SUB_HUMOR_SEC = 600 / UPDATE_SPEED;
     private const int UPDATE_SUB_HUMOR = 3;
-    private const int CHECK_SICK_SEC = 21600 / UPDATE_SPEED;
+    private const int CHECK_SICK_SEC = 300 / UPDATE_SPEED;//21600 / UPDATE_SPEED;
     private const int SUB_SLEEPING_TOILET_SEC = 3600 / UPDATE_SPEED;
     private const int UPDATE_SUB_SLEEPING_TOILET = 10;
     private const int CHECK_TOILET_SEC = 2400 / UPDATE_SPEED;
@@ -41,6 +38,8 @@ public class CharaModel : MonoBehaviour
     private const int POOP_SATIETY_BORDER = 50;
     private const int POOP_SUB_SATIETY = 15;
     private const int POOP_ADD_TOILET = 10;
+
+    private const int SICK_POOP_MAG = 5;
     
     public void SetCharaData(CharaMaster _master,UserCharaRecord _record)
     {
@@ -48,12 +47,25 @@ public class CharaModel : MonoBehaviour
         m_charaRecord = _record;
     }
 
+    private int CulcExeCount(string _oldDate,int _baseSec)
+    {
+        DateTime oldDate = DateTime.Parse(_oldDate);
+        DateTime nowDate = DateTime.Now;
+        double msec = (nowDate - oldDate).TotalMilliseconds;
+        double exeCount = (msec / 1000) / _baseSec;
+        return (int)Math.Floor(exeCount);
 
-    private bool isFood()
+    }
+
+    private bool IsFood()
     {
         if(m_master.maxSatiety <= m_charaRecord.status.satiety)
         {
             // 満腹状態
+            return false;
+        }else if (IsSick())
+        {
+            // 病気中
             return false;
         }
         
@@ -62,7 +74,7 @@ public class CharaModel : MonoBehaviour
 
     public bool ExeFood()
     {
-        if (isFood())
+        if (IsFood())
         {
             m_charaRecord.status.satiety += FOOD_ADD_SATIETY;
             if (m_charaRecord.status.satiety > m_master.maxSatiety) m_charaRecord.status.satiety = m_master.maxSatiety;
@@ -109,20 +121,15 @@ public class CharaModel : MonoBehaviour
         return updateFlg;
     }
 
-    private int IsSubSatiety()
+    private int CheckSubSatiety()
     {
         if (m_charaRecord.status.satiety <= 0) return 0;
-        
-        DateTime oldDate = DateTime.Parse(m_charaRecord.time.satietySub);
-        DateTime nowDate = DateTime.Now;
-        double msec = (nowDate - oldDate).TotalMilliseconds;
-        double subSec = (msec / 1000) / SUB_SATIETY_SEC;
-        return (int)Math.Floor(subSec);
+        return CulcExeCount(m_charaRecord.time.satietySub, SUB_SATIETY_SEC);
     }
     
     private bool ExeSubSatiety()
     {
-        int exeCount = IsSubSatiety();
+        int exeCount = CheckSubSatiety();
         if (exeCount > 0)
         {
             Debug.Log("ExeSubSatiety");
@@ -135,20 +142,15 @@ public class CharaModel : MonoBehaviour
         return false;
     }
 
-    private int IsSubSleepiness()
+    private int CheckSubSleepiness()
     {
         if (m_charaRecord.status.sleepiness <= 0) return 0;
-        
-        DateTime oldDate = DateTime.Parse(m_charaRecord.time.sleepnessSub);
-        DateTime nowDate = DateTime.Now;
-        double msec = (nowDate - oldDate).TotalMilliseconds;
-        double subSec = (msec / 1000) / SUB_SLEEPINESS_SEC;
-        return (int)Math.Floor(subSec);
+        return CulcExeCount(m_charaRecord.time.sleepnessSub, SUB_SLEEPINESS_SEC);
     }
 
     private bool ExeSubSleepiness()
     {
-        int exeCount = IsSubSleepiness();
+        int exeCount = CheckSubSleepiness();
         if (exeCount > 0)
         {
             Debug.Log("ExeSubSleepiness");
@@ -161,20 +163,15 @@ public class CharaModel : MonoBehaviour
         return false;
     }
 
-    private int IsSubHumor()
+    private int CheckSubHumor()
     {
         if (m_charaRecord.status.humor <= 0) return 0;
-        
-        DateTime oldDate = DateTime.Parse(m_charaRecord.time.humorSub);
-        DateTime nowDate = DateTime.Now;
-        double msec = (nowDate - oldDate).TotalMilliseconds;
-        double subSec = (msec / 1000) / SUB_HUMOR_SEC;
-        return (int)Math.Floor(subSec);
+        return CulcExeCount(m_charaRecord.time.humorSub, SUB_HUMOR_SEC);
     }
 
     private bool ExeSubHumor()
     {
-        int exeCount = IsSubHumor();
+        int exeCount = CheckSubHumor();
         if (exeCount > 0)
         {
             Debug.Log("ExeSubHumor");
@@ -187,20 +184,15 @@ public class CharaModel : MonoBehaviour
         return false;
     }
 
-    private int IsSubSleepingToilet()
+    private int CheckSubSleepingToilet()
     {
         if (m_charaRecord.status.toilet <= 0) return 0;
-        
-        DateTime oldDate = DateTime.Parse(m_charaRecord.time.toiletSub);
-        DateTime nowDate = DateTime.Now;
-        double msec = (nowDate - oldDate).TotalMilliseconds;
-        double subSec = (msec / 1000) / SUB_SLEEPING_TOILET_SEC;
-        return (int)Math.Floor(subSec);
+        return CulcExeCount(m_charaRecord.time.toiletSub, SUB_SLEEPING_TOILET_SEC);
     }
 
     private bool ExeSleepingToilet()
     {
-        int exeCount = IsSubSleepingToilet();
+        int exeCount = CheckSubSleepingToilet();
         if (exeCount > 0)
         {
             Debug.Log("ExeSleepingToilet");
@@ -216,20 +208,16 @@ public class CharaModel : MonoBehaviour
     #endregion UPDATE_STATUS
     #region CHECK_STATUS
 
-    private int IsPoop()
+    private int CheckPoopTiming()
     {
         if (m_charaRecord.status.toilet >= m_master.maxToilet) return 0;
+        return CulcExeCount(m_charaRecord.time.toiletAdd, CHECK_TOILET_SEC);
 
-        DateTime oldDate = DateTime.Parse(m_charaRecord.time.toiletAdd);
-        DateTime nowDate = DateTime.Now;
-        double msec = (nowDate - oldDate).TotalMilliseconds;
-        double subSec = (msec / 1000) / CHECK_TOILET_SEC;
-        return (int)Math.Floor(subSec);
     }
 
     public bool ExePoop(BreedingSceneManager.OnPoop _callback)
     {
-        int exeCount = IsPoop();
+        int exeCount = CheckPoopTiming();
         if (exeCount > 0)
         {
             Debug.Log("ExePoop");
@@ -252,5 +240,34 @@ public class CharaModel : MonoBehaviour
 
         return false;
     }
+
+    public bool IsSick()
+    {
+        return m_charaRecord.status.sick;
+    }
+
+    private int CheckSickTiming()
+    {
+        return CulcExeCount(m_charaRecord.time.sickCheck, CHECK_SICK_SEC);
+    }
+
+    public bool ExeSick(int _roomPoopNum)
+    {
+        int exeCount = CheckSickTiming();
+        if (exeCount > 0)
+        {
+            Debug.Log("ExeSick");
+            int sickBase = m_master.sickParcent + (_roomPoopNum * SICK_POOP_MAG);
+            int randNum = Random.Range(1, 100);
+            Debug.Log("sickBase:" + sickBase + "  randNum :" + randNum);
+            bool sick = (sickBase > randNum);
+            if (sick) m_charaRecord.status.sick = true;
+            m_charaRecord.time.sickCheck = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            return true;
+        }
+        return false;
+    }
+    
+    
     #endregion CHECK_STATUS
 }

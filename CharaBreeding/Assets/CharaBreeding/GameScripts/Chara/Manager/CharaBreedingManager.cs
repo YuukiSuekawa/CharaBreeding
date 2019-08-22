@@ -28,6 +28,8 @@ public class CharaBreedingManager : CharaManagerBase
     private BreedingSceneManager.OnCharaSave m_saveCallback;
 
     private BreedingSceneManager.OnPoop m_poopCallback;
+
+    private BreedingSceneManager.GetRoomPoopNum _m_getRoomPoop;
     
     public enum CharaActionState
     {
@@ -55,6 +57,7 @@ public class CharaBreedingManager : CharaManagerBase
             m_updatedStatusTime = 0;
             UpdateStatusRequest();
             ExePoopRequest();
+            ExeSickRequest();
         }
 
         m_updatedAnimTime += Time.deltaTime;
@@ -72,10 +75,11 @@ public class CharaBreedingManager : CharaManagerBase
         m_updatedAnimTime = Time.deltaTime;
     }
 
-    public void SetCallback(BreedingSceneManager.OnCharaSave _saveCallback,BreedingSceneManager.OnPoop _poopCallback)
+    public void SetCallback(BreedingSceneManager.OnCharaSave _saveCallback,BreedingSceneManager.OnPoop _poopCallback,BreedingSceneManager.GetRoomPoopNum _getRoomPoopCallback)
     {
         m_saveCallback = _saveCallback;
         m_poopCallback = _poopCallback;
+        _m_getRoomPoop = _getRoomPoopCallback;
     }
 
     public bool IsActionPossible()
@@ -95,6 +99,11 @@ public class CharaBreedingManager : CharaManagerBase
     private void ExePoopRequest()
     {
         m_controller.ExePoopRequest(m_saveCallback,m_poopCallback);
+    }
+
+    private void ExeSickRequest()
+    {
+        m_controller.ExeSickRequest(m_saveCallback,_m_getRoomPoop());
     }
     
     public void EatFoodRequest()

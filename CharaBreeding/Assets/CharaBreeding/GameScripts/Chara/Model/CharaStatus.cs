@@ -8,6 +8,7 @@ namespace CharaBreeding
     {
         public int satiety;
         public int sleepiness;
+        public bool sleeping;
         public int humor;
         public bool sick;
         public int toilet;
@@ -21,6 +22,7 @@ namespace CharaBreeding
             sleepiness = INIT_MIN_VALUE;
             humor = INIT_MAX_VALUE;
             sick = false;
+            sleeping = false;
             toilet = INIT_MIN_VALUE;
         }
     }
