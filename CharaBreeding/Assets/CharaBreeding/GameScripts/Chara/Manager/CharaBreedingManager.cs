@@ -122,6 +122,12 @@ public class CharaBreedingManager : CharaManagerBase
         if(success) m_status = CharaActionState.eat;
     }
 
+    public void ExeInjectionRequest()
+    {
+        if (!IsActionPossible()) return;
+        m_controller.ExeInjectionRequest(m_saveCallback);
+    }
+
     private void UpdateFreeAnimRequest()
     {
         m_controller.UpdateFreeAnimRequest();

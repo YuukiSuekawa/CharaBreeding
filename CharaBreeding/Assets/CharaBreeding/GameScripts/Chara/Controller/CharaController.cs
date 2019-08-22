@@ -78,6 +78,15 @@ public class CharaController : MonoBehaviour
             m_view.SetCharaData(m_model.MCharaRecord);
         }
     }
+
+    public void ExeInjectionRequest(BreedingSceneManager.OnCharaSave _saveCallback)
+    {
+        if (m_model.ExeInjection())
+        {
+            _saveCallback(m_model.MCharaRecord);
+            m_view.SetCharaData(m_model.MCharaRecord);            
+        }
+    }
     #endregion SICK
     
     #region FREE_ANIM

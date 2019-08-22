@@ -267,6 +267,17 @@ public class CharaModel : MonoBehaviour
         }
         return false;
     }
+
+    
+    public bool ExeInjection()
+    {
+        if (IsSick())
+        {
+            m_charaRecord.status.sick = false;
+            return true;
+        }
+        return false;
+    }
     
     
     #endregion CHECK_STATUS
