@@ -3,6 +3,8 @@
 
 ![作成中の画像](https://scontent-nrt1-1.xx.fbcdn.net/v/t1.0-9/69108682_2964655817092933_8795317518618066944_n.jpg?_nc_cat=101&_nc_oc=AQkubwWLgixC4tL1a4E0RXEmej1hsb9IsjieArqenFLM-wj_Q26q1JaSdPSRy_xl8Kw&_nc_ht=scontent-nrt1-1.xx&oh=90a652ed7d00debdfced43a510166b9c&oe=5DD38E47)
 
+## 動画サンプル(リンク先)
+[![](https://raw.githubusercontent.com/YuukiSuekawa/TestRepository/master/2019-08-23_000750.png)](https://www.facebook.com/ys.1025/videos/2969753723249809/)
 
 
 # 仕様
