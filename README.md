@@ -51,6 +51,7 @@
 # 構造(予定)
 + MainManager(シングルトン)
 + SoundManager(シングルトン)
++ SaveManager(シングルトン)
 + CharaBreedingManager：シーンのマネージャ想定
   + CharaManager
     + CharaController
@@ -60,4 +61,4 @@
     + RoomController
     + RoomView
     + RoomModel
-  + UserController
+  + UIManager
