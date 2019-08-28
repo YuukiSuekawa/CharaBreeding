@@ -57,8 +57,9 @@ namespace CharaBreeding.GameScripts
             }
         }
 
-        public void Init()
+        public override void Init(GameMainManager.ChangeSceneRequest _changeSceneCallback)
         {
+            base.Init(_changeSceneCallback);
             Debug.Log("SceneManager Init");
             SearchMng();
             SetUIEvent();

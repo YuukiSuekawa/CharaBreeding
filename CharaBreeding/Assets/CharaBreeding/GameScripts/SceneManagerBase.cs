@@ -8,6 +8,7 @@ namespace CharaBreeding.GameScripts
     public class SceneManagerBase : MonoBehaviour,IMasterObj,IUpdateByFrame
     {
         protected IGameObj[] m_gameObject;
+        private GameMainManager.ChangeSceneRequest m_changeSceneCallback;
 
         protected void Awake()
         {
@@ -23,6 +24,26 @@ namespace CharaBreeding.GameScripts
                     update.UpdateByFrame();
                 }
             }
+        }
+
+        protected void SceneChangeRequest(string _sceneName)
+        {
+            m_changeSceneCallback(_sceneName);
+        }
+
+        public virtual void Init(GameMainManager.ChangeSceneRequest _changeSceneCallback)
+        {
+            m_changeSceneCallback = _changeSceneCallback;
+        }
+
+        public void FadeOut()
+        {
+            
+        }
+
+        public void FadeIn()
+        {
+            
         }
     }
 }

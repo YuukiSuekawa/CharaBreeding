@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using CharaBreeding;
-using UnityEditor.U2D;
 using UnityEngine;
 
 public class RoomModel : MonoBehaviour

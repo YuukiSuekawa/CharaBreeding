@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/CharaBreeding/Scenes/BreedingScene.unity
-    guid: c89c2ce2b5033bf4eb84e87264fc3816
-  - enabled: 1
     path: Assets/CharaBreeding/Scenes/TitleScene.unity
     guid: 051805ceb71b5984490771a6774079f1
+  - enabled: 1
+    path: Assets/CharaBreeding/Scenes/BreedingScene.unity
+    guid: c89c2ce2b5033bf4eb84e87264fc3816
   m_configObjects: {}
